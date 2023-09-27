@@ -99,20 +99,21 @@ def delete_data():
             print(tel_book)
         print("")
         tel_book_lines = tel_book.split("\n")
+        len_rec = len(tel_book_lines)-1
 
-        print("Какую именно запись по счету Вы хотите удалить?")
+        print(f"Какую именно запись из {len_rec} по порядку Вы хотите удалить?")
         number_journal = int(input('Введите номер записи, если передумали удалять, введите 0: '))
         
         if number_journal > 0:
-            while number_journal > len(tel_book_lines):
+            while number_journal > len_rec:
                 print('Ты дурак?! Даю тебе последний шанс')
                 number_journal = int(input('Введите номер записи: '))
 
 
              
             # !!!Здесь можно свести в одну строку 2
-            del_tel_book_lines = tel_book_lines[number_journal-1]
-            tel_book_lines.pop(number_journal-1)
+            # del_tel_book_lines = tel_book_lines[number_journal-1]
+            del_tel_book_lines = tel_book_lines.pop(number_journal-1)
             print(f"Удалена запись: {del_tel_book_lines}")
             with open('data_second_variant.csv', "w", encoding='utf-8') as data:
                 data.write("\n".join(tel_book_lines))
