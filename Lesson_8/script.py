@@ -30,7 +30,7 @@ def input_data():
             file.write(f'{name}\n{surname}\n{phone}\n{address}\n\n')
     else:
         with open('data_second_variant.csv', 'a', encoding='utf-8') as file:
-            file.write(f'{name};{surname};{phone};{address}\n\n')
+            file.write(f'{name};{surname};{phone};{address}\n') # \n\n
 
 
 def print_data():
@@ -93,7 +93,26 @@ def delete_data():
         # Можно добавить проверку, чтобы человек не выходил за пределы записи
         # ТУТ НАПИСАТЬ КОД
     else:
+        print("Имя | Фамилия | Телефон | Адрес")
+        with open('data_second_variant.csv', "r", encoding="utf-8") as data:
+            tel_book = data.read()
+            print(tel_book)
+        print("")
+        tel_book_lines = tel_book.split("\n")
+
         print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        number_journal = int(input('Введите номер записи, если передумали удалять, введите 0: '))
+        
+        if number_journal > 0:
+            while number_journal > len(tel_book_lines):
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+
+             
+            # !!!Здесь можно свести в одну строку 2
+            del_tel_book_lines = tel_book_lines[number_journal-1]
+            tel_book_lines.pop(number_journal-1)
+            print(f"Удалена запись: {del_tel_book_lines}")
+            with open('data_second_variant.csv', "w", encoding='utf-8') as data:
+                data.write("\n".join(tel_book_lines))
