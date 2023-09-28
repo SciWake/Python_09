@@ -110,11 +110,39 @@ def put_data():
                     data.write("\n".join(tel_book_lines))
 
     else:
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+        print("Имя | Фамилия | Телефон | Адрес")
+        with open('data_second_variant.csv', "r", encoding="utf-8") as data:
+            tel_book = data.read()
+            print(tel_book)
+        print("")
+        tel_book_lines = tel_book.split("\n")
+        len_rec = len(tel_book_lines)-1
 
+        print(f"Какую именно запись из {len_rec} по порядку Вы хотите изменить?")
+        number_journal = int(input('Введите номер записи, если передумали изменять, введите 0: '))
+        
+        if number_journal > 0:
+            while number_journal > len_rec:
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+                
+            print("Поля справочника:")
+            print("1 - Имя")
+            print("2 - Фамилия")
+            print("3 - Телефон")
+            print("4 - Адрес")
+            field = int(input('Введите номер поля, которое хотите изменить. Если передумали вносить изменения, введите 0: '))
+            
+            if field > 0:
+                while field > 4:
+                    print('Ты дурак?! Даю тебе последний шанс')
+                    number_journal = int(input('Введите номер поля: '))
+
+
+"""            del_tel_book_lines = tel_book_lines.pop(number_journal-1)
+            print(f"Удалена запись: {del_tel_book_lines}")
+            with open('data_second_variant.csv', "w", encoding='utf-8') as data:
+                data.write("\n".join(tel_book_lines))"""
 
 def delete_data():
     print('Из какого файла Вы хотите удалить данные?')
