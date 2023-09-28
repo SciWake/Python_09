@@ -63,12 +63,52 @@ def put_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
+    if number_file == 1:
+        print("Имя | Фамилия | Телефон | Адрес")
+        with open('data_first_variant.csv', "r", encoding="utf-8") as data:
+            tel_book = data.read()
+        tel_book_lines = tel_book.split("\n")
+        len_tel_book_lines = len(tel_book_lines)
+        len_rec = (len_tel_book_lines-1)//5
 
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+        num_rec = 1 # номер записи в файле.
+        for i in range(len_tel_book_lines-1):
+            if (i%5 == 0):
+                print(f"Запись №{num_rec}:")
+                num_rec += 1
+            print(tel_book_lines[i])
+
+        print(f"Какую именно запись из {len_rec} по порядку Вы хотите изменить?")
+        number_journal = int(input('Введите номер записи, если передумали вносить изменения, введите 0: '))
+        
+        if number_journal > 0:
+            while number_journal > len_rec:
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+            print("Поля справочника:")
+            print("1 - Имя")
+            print("2 - Фамилия")
+            print("3 - Телефон")
+            print("4 - Адрес")
+            field = int(input('Введите номер поля, которое хотите изменить. Если передумали вносить изменения, введите 0: '))
+            
+            if field > 0:
+                while field > 4:
+                    print('Ты дурак?! Даю тебе последний шанс')
+                    number_journal = int(input('Введите номер поля: '))
+
+                num_begin_record = (number_journal-1)*5
+                index_line = num_begin_record + field - 1
+
+                # print(f"Вводим инфу в строку с индексом: {index_line}")
+
+                field_data = input(f"Введите информацию для поля {field} записи {number_journal}: ")
+                tel_book_lines[index_line] = field_data
+
+                with open('data_first_variant.csv', "w", encoding='utf-8') as data:
+                    data.write("\n".join(tel_book_lines))
+
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
@@ -108,14 +148,14 @@ def delete_data():
                 print('Ты дурак?! Даю тебе последний шанс')
                 number_journal = int(input('Введите номер записи: '))
 
-            num_begin_del_line = (number_journal-1)*5
-            # print(f"Индекс первой строки для удаления: {num_begin_del_line}")
+            num_begin_record = (number_journal-1)*5
+            # print(f"Индекс первой строки записи: {num_begin_del_line}")
 
-            del1 = tel_book_lines.pop(num_begin_del_line)
-            del2 = tel_book_lines.pop(num_begin_del_line)
-            del3 = tel_book_lines.pop(num_begin_del_line)
-            del4 = tel_book_lines.pop(num_begin_del_line)
-            tel_book_lines.pop(num_begin_del_line)
+            del1 = tel_book_lines.pop(num_begin_record)
+            del2 = tel_book_lines.pop(num_begin_record)
+            del3 = tel_book_lines.pop(num_begin_record)
+            del4 = tel_book_lines.pop(num_begin_record)
+            tel_book_lines.pop(num_begin_record)
 
             with open('data_first_variant.csv', "w", encoding='utf-8') as data:
                 data.write("\n".join(tel_book_lines))
