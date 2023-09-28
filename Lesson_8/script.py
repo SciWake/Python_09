@@ -108,8 +108,23 @@ def delete_data():
                 print('Ты дурак?! Даю тебе последний шанс')
                 number_journal = int(input('Введите номер записи: '))
 
-#        print("Какую именно запись по счету Вы хотите удалить?")
-#        number_journal = int(input('Введите номер записи: '))
+            num_begin_del_line = (number_journal-1)*5
+            # print(f"Индекс первой строки для удаления: {num_begin_del_line}")
+
+            del1 = tel_book_lines.pop(num_begin_del_line)
+            del2 = tel_book_lines.pop(num_begin_del_line)
+            del3 = tel_book_lines.pop(num_begin_del_line)
+            del4 = tel_book_lines.pop(num_begin_del_line)
+            tel_book_lines.pop(num_begin_del_line)
+
+            with open('data_first_variant.csv', "w", encoding='utf-8') as data:
+                data.write("\n".join(tel_book_lines))
+
+            print(f"Запись №{number_journal} была удалена со всем своим содержимым:")
+            print(del1)
+            print(del2)
+            print(del3)
+            print(del4)
 
     else:
         print("Имя | Фамилия | Телефон | Адрес")
