@@ -86,12 +86,31 @@ def delete_data():
         number_file = int(input('Введите номер файла: '))
 
     if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
+        print("Имя | Фамилия | Телефон | Адрес")
+        with open('data_first_variant.csv', "r", encoding="utf-8") as data:
+            tel_book = data.read()
+        tel_book_lines = tel_book.split("\n")
+        len_tel_book_lines = len(tel_book_lines)
+        len_rec = (len_tel_book_lines-1)//5
 
-        print("Заглушка!!! Здесь будет добавлено удаление записи из 1-го файла.0")
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        num_rec = 1 # номер записи в файле.
+        for i in range(len_tel_book_lines-1):
+            if (i%5 == 0):
+                print(f"Запись №{num_rec}:")
+                num_rec += 1
+            print(tel_book_lines[i])
+
+        print(f"Какую именно запись из {len_rec} по порядку Вы хотите удалить?")
+        number_journal = int(input('Введите номер записи, если передумали удалять, введите 0: '))
+        
+        if number_journal > 0:
+            while number_journal > len_rec:
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+#        print("Какую именно запись по счету Вы хотите удалить?")
+#        number_journal = int(input('Введите номер записи: '))
+
     else:
         print("Имя | Фамилия | Телефон | Адрес")
         with open('data_second_variant.csv', "r", encoding="utf-8") as data:
@@ -109,10 +128,6 @@ def delete_data():
                 print('Ты дурак?! Даю тебе последний шанс')
                 number_journal = int(input('Введите номер записи: '))
 
-
-             
-            # !!!Здесь можно свести в одну строку 2
-            # del_tel_book_lines = tel_book_lines[number_journal-1]
             del_tel_book_lines = tel_book_lines.pop(number_journal-1)
             print(f"Удалена запись: {del_tel_book_lines}")
             with open('data_second_variant.csv', "w", encoding='utf-8') as data:
