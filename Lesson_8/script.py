@@ -125,7 +125,7 @@ def put_data():
             while number_journal > len_rec:
                 print('Ты дурак?! Даю тебе последний шанс')
                 number_journal = int(input('Введите номер записи: '))
-                
+
             print("Поля справочника:")
             print("1 - Имя")
             print("2 - Фамилия")
@@ -138,11 +138,19 @@ def put_data():
                     print('Ты дурак?! Даю тебе последний шанс')
                     number_journal = int(input('Введите номер поля: '))
 
+            field_data = input(f"Введите информацию для поля {field} записи {number_journal}: ")
 
-"""            del_tel_book_lines = tel_book_lines.pop(number_journal-1)
-            print(f"Удалена запись: {del_tel_book_lines}")
+            # print(f"Меняем поле {field} в записи {number_journal}")
+
+            edit_record = tel_book_lines[number_journal-1]
+            fields = edit_record.split(";")
+            
+            fields[field-1] = field_data
+            # print(*fields)
+            tel_book_lines[number_journal-1] = ";".join(fields)
+
             with open('data_second_variant.csv', "w", encoding='utf-8') as data:
-                data.write("\n".join(tel_book_lines))"""
+                data.write("\n".join(tel_book_lines))
 
 def delete_data():
     print('Из какого файла Вы хотите удалить данные?')
