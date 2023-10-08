@@ -53,45 +53,79 @@ def print_data():
         print(*data_second)
     return data_first, data_second
 
+def show_data(contacts):
+    print("\n№ | ФИО | Телефон | Адрес | Комментарий |")
+    for contact in contacts:
+        print(f"{contact['id']} | {contact['name']} | {contact['phone']} | {contact['adress']} | {contact['comment']}")
+    print("")
 
-def put_data():
-    print('Из какого файла Вы хотите изменить данные?')
-    data_first, data_second = print_data()
-    number_file = int(input('Введите номер файла: '))
+def add_contact(contacts):
+    fio = input("Введите ФИО: ")
+    phone_number = input("Введите номер телефона: ")
+    street_name = input('Введите адрес: ')
+    comment = input('Введите комментарий: ')
+    contact = {'id': len(contacts) + 1, 'name': fio, 'phone': phone_number, 'adress': street_name, 'comment': comment}
+    contacts.append(contact)
+    print(f"Добавлена запись: {contact['id']} | {contact['name']} | {contact['phone']} | {contact['adress']} | {contact['comment']}\n")
 
-    while number_file != 1 and number_file != 2:
-        print('Ты дурак?! Даю тебе последний шанс')
-        number_file = int(input('Введите номер файла: '))
-
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+def edit_contact(contacts):
+    print("\n№ | ФИО | Телефон | Адрес | Комментарий |")
+    for contact in contacts:
+        print(f"{contact['id']} | {contact['name']} | {contact['phone']} | {contact['adress']} | {contact['comment']}")
+    print("")
+    index = int(input("Введите порядковый № контакта для редактирования: ")) - 1
+    if index >= 0 and index < len(contacts):
+        contact = contacts[index]
+        fio = input("Введите измененные данные ФИО: ")
+        phone = input("Введите измененный номер телефона: ")
+        street_name = input("Введите измененный адрес: ")
+        comment = input("Введите измененный комментарий: ")
+        if fio:
+            contact['name'] = fio
+        if phone:
+            contact['phone'] = phone
+        if street_name:
+            contact['adress'] = street_name
+        if comment:
+            contact['comment'] = comment
+        print(f"Изменена запись №{contact['id']} | {contact['name']} | {contact['phone']} | {contact['adress']} | {contact['comment']}\n")
     else:
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+        print("Неправильный номер контакта\n")
 
-
-def delete_data():
-    print('Из какого файла Вы хотите удалить данные?')
-    data_first, data_second = print_data()
-    number_file = int(input('Введите номер файла: '))
-
-    while number_file != 1 and number_file != 2:
-        print('Ты дурак?! Даю тебе последний шанс')
-        number_file = int(input('Введите номер файла: '))
-
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+def delete_contact(contacts):
+    print("\n№ | ФИО | Телефон | Адрес | Комментарий |")
+    for contact in contacts:
+        print(f"{contact['id']} | {contact['name']} | {contact['phone']} | {contact['adress']} | {contact['comment']}")
+    print("")
+    index = int(input("Введите номер контакта для удаления: ")) - 1
+    if index >= 0 and index < len(contacts):
+        contact = contacts.pop(index)
+        print(f"Удалена запись №{contact['id']} | {contact['name']} | {contact['phone']} | {contact['adress']} | {contact['comment']}\n")
     else:
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        print("Неправильный номер контакта\n")
+
+def main():
+    contacts = []
+
+    while True:
+        print("Выберите действие:")
+        print("1 - Информации о контакте")
+        print("2 - Добавить контакт")
+        print("3 - Редактировать контакт")
+        print("4 - Удалить контакт")
+        print("0 - Выход")
+        action = input("Действие: ")
+        if action == '1':
+            show_data(contacts)
+        elif action == '2':
+            add_contact(contacts)
+        elif action == '3':
+            edit_contact(contacts)
+        elif action == '4':
+            delete_contact(contacts)
+        elif action == '0':
+            break
+        else:
+            print("Неправильный выбор\n")
+
+    print("До свидания!")
