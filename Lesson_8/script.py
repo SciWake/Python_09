@@ -1,8 +1,4 @@
-from data_create import name_data, surname_data, phone_data, address_data
-import os
-
-def get_path(mpath: str) -> os.path:
-    return os.path.join(os.getcwd(), mpath)
+from data_create import *
 
 
 def input_data():
@@ -31,8 +27,6 @@ def input_data():
     else:
         with open('data_second_variant.csv', 'a', encoding='utf-8') as file:
             file.write(f'{name};{surname};{phone};{address}\n\n')
-
-
 def print_data():
     print('Вывожу данные для Вас из 1-ого файла\n')
     with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
@@ -49,12 +43,10 @@ def print_data():
 
     print('Вывожу данные для Вас из 2-ого файла\n')
     with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
-        data_second = list(file.readlines())
+        data_second = file.readlines()
         print(*data_second)
     return data_first, data_second
-
-
-def put_data():
+def edit_data():
     print('Из какого файла Вы хотите изменить данные?')
     data_first, data_second = print_data()
     number_file = int(input('Введите номер файла: '))
@@ -64,18 +56,59 @@ def put_data():
         number_file = int(input('Введите номер файла: '))
 
     if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
 
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+        print("Какую именно запись по счету Вы хотите изменить?")
+        with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
+            data_first = file.readlines()
+            print(*data_first)
+        number_journal = int(input('Введите номер записи: '))
+        if number_journal == 1:
+            data_first_version_second = ''.join(data_first[5:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{name_data()}\n{surname_data()}\n{phone_data()}\n{address_data()}\n\n{data_first_version_second}')
+        if number_journal == 2:
+            data_first_version_second = ''.join(data_first[:5])
+            data2 = ''.join(data_first[9:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{data_first_version_second}{name_data()}\n{surname_data()}\n{phone_data()}\n{address_data()}\n{data2}\n\n')
+        if number_journal == 3:
+            data_first_version_second = ''.join(data_first[:10])
+            data2 = ''.join(data_first[14:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{data_first_version_second}{name_data()}\n{surname_data()}\n{phone_data()}\n{address_data()}\n{data2}\n\n')
+        if number_journal == 4:
+            data_first_version_second = ''.join(data_first[:15])
+            data2 = ''.join(data_first[20:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{data_first_version_second}{name_data()}\n{surname_data()}\n{phone_data()}\n{address_data()}\n{data2}\n\n')
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
+        with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
+            data_second = file.readlines()
+            print(*data_second)
         number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
 
+        if number_journal == 1:
+            data_second_version_second = ''.join(data_second[2:])
 
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{name_data()};{surname_data()};{phone_data()};{address_data()}\n\n {data_second_version_second}')
+
+        if number_journal == 2:
+            data_second_version_second = ''.join(data_second[:2])
+            data2 = ''.join(data_second[3:])
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{data_second_version_second}{name_data()};{surname_data()};{phone_data()};{address_data()}\n{data2}\n\n')
+        if number_journal == 3:
+            data_second_version_second = ''.join(data_second[:4])
+            data2 = ''.join(data_second[5:])
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{data_second_version_second}{name_data()};{surname_data()};{phone_data()};{address_data()}\n{data2}\n\n')
+        if number_journal == 4:
+            data_second_version_second = ''.join(data_second[:6])
+            data2 = ''.join(data_second[7:])
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{data_second_version_second}{name_data()};{surname_data()};{phone_data()};{address_data()}\n{data2}\n\n')
 def delete_data():
     print('Из какого файла Вы хотите удалить данные?')
     data_first, data_second = print_data()
@@ -87,11 +120,52 @@ def delete_data():
 
     if number_file == 1:  # Можно сделать нумерацию внутри файла
         print("Какую именно запись по счету Вы хотите удалить?")
+        with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
+            data_first = file.readlines()
+            print(*data_first)
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        if number_journal == 1 :
+            del_list = ''.join(data_first[5:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}')
+        if number_journal == 2:
+            del_list = ''.join(data_first[:5])
+            last_list = ''.join(data_first[10:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}{last_list}')
+        if number_journal == 3:
+            del_list = ''.join(data_first[:10])
+            last_list = ''.join(data_first[15:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}{last_list}')
+        if number_journal == 4:
+            del_list = ''.join(data_first[:15])
+            last_list = ''.join(data_first[20:])
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}{last_list}')
+
     else:
         print("Какую именно запись по счету Вы хотите удалить?")
+        with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
+            data_second = file.readlines()
+            print(*data_second)
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        if number_journal == 1:
+            del_list = ''.join(data_second[2:])
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}')
+        if number_journal == 2:
+            del_list = ''.join(data_second[:2])
+            last_list = ''.join(data_second[4:])
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}{last_list}')
+        if number_journal == 3:
+            del_list = ''.join(data_second[:4])
+            last_list = ''.join(data_second[6:])
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}{last_list}')
+        if number_journal == 4:
+            del_list = ''.join(data_second[:6])
+            last_list = ''.join(data_second[8:])
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(f'{del_list}{last_list}')
