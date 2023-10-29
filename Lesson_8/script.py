@@ -53,22 +53,14 @@ def print_data():
         print(*data_second)
     return data_first, data_second
 
-def put_data():
-    print('Из какого файла Вы хотите изменить данные?')
-    data_first, data_second = print_data()
-    number_file = int(input('Введите номер файла: '))
-
-    while number_file != 1 and number_file != 2:
-        print('Ты дурак?! Даю тебе последний шанс')
-        number_file = int(input('Введите номер файла: '))
-
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
+def edit (csv_file):
+        
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
         # ТУТ НАПИСАТЬ КОД
         # Можно добавить проверку, чтобы человек не выходил за пределы записей
 
-        with open ("data_first_variant.csv",  "r", encoding="utf-8") as data:
+        with open (csv_file,  "r", encoding="utf-8") as data:
             lines = data.readlines()
 
         while number_journal > len(lines):
@@ -90,46 +82,21 @@ def put_data():
         if input("that's it?\nif no type n").lower() == "n":
             put_data()
 
+def put_data():
+    print('Из какого файла Вы хотите изменить данные?')
+    data_first, data_second = print_data()
+    number_file = int(input('Введите номер файла: '))
+
+    while number_file != 1 and number_file != 2:
+        print('Ты дурак?! Даю тебе последний шанс')
+        number_file = int(input('Введите номер файла: '))
+
+    if number_file == 1:  # Можно сделать нумерацию внутри файла
+        edit("data_first_variant.csv")
 
     else:
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-
-        with open ("data_second_variant", "r", encoding="utf-8" ) as file:
-            lines = file.readlines()
-
-        while number_journal > len(lines):
-            print("Come on!!! That is not fine!!!")
-            number_journal = int(input('Введите номер записи: '))
-            
-
-        for i, line in enumerate(lines):
-            if i == number_journal -1 :
-                if input(f"this one? {line} \nif yes type y: ").lower() == "y":                        
-                    new_value = input("What would you wish to write instead: ")
-                    value = new_value
-                    a = "".join(lines).replace(line, value)
-                else:
-                    put_data()
+        edit("data_second_variant.csv")
         
-        with open ("data_first_variant.csv",  "w", encoding="utf-8") as file:
-            file.writelines(a)
-
-        if input("that's it?\nif no type n").lower() == "n":
-            put_data()
-
-
-
-
-
-
-
-
-
-
-
 
 
 
