@@ -11,7 +11,6 @@ def input_data():
     surname = surname_data()
     phone = phone_data()
     address = address_data()
-    return name, surname, phone, address
 
 def format_data():
     name, surname, phone, address = input_data()
