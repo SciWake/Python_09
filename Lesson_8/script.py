@@ -6,14 +6,15 @@ def rw_data(data, file):
                 file.write(i)
 
 
-def input_data():
+def format_data():
     name = name_data()
     surname = surname_data()
     phone = phone_data()
     address = address_data()
+    return name, surname, phone, address
 
-def format_data():
-    name, surname, phone, address = input_data()
+def input_data():
+    name, surname, phone, address = format_data()
     var = int(input(f"В каком формате Вы хотите записать данные?\n\n"
                     f"1 Вариант:\n\n"
                     f"{surname}\n"
@@ -72,7 +73,7 @@ def put_data():
 
         while 0 >= number_journal > len(data_first):
             number_journal = int(input('Введите номер записи еще раз: '))
-        name, surname, phone, address = input_data()
+        name, surname, phone, address = format_data()
         data_first[number_journal-1] = f'{name}\n{surname}\n{phone}\n{address}\n\n'
         rw_data(data_first, 'data_first_variant.csv')
 
@@ -82,7 +83,7 @@ def put_data():
         
         while 0 >= number_journal > len(data_second)/2:
             number_journal = int(input('Введите номер записи еще раз: '))
-        name, surname, phone, address = input_data()
+        name, surname, phone, address = format_data()
         data_second[(number_journal-1)*2] = f'{name};{surname};{phone};{address}\n'
         rw_data(data_second, 'data_second_variant.csv')
 
