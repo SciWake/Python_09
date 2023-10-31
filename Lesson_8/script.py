@@ -1,8 +1,9 @@
 from data_create import name_data, surname_data, phone_data, address_data
-import os
 
-def get_path(mpath: str) -> os.path:
-    return os.path.join(os.getcwd(), mpath)
+def rw_data(data, file):
+    with open(file, 'w', encoding='utf-8') as file:
+            for i in data:
+                file.write(i)
 
 
 def input_data():
@@ -10,7 +11,10 @@ def input_data():
     surname = surname_data()
     phone = phone_data()
     address = address_data()
+    return name, surname, phone, address
 
+def format_data():
+    name, surname, phone, address = input_data()
     var = int(input(f"В каком формате Вы хотите записать данные?\n\n"
                     f"1 Вариант:\n\n"
                     f"{surname}\n"
@@ -42,7 +46,7 @@ def print_data():
         for i in range(len(data_first)):
             if data_first[i] == '\n' or i == len(data_first) - 1:
                 data_first_version_second.append(''.join(data_first[j:i + 1]))
-                j = i
+                j = i+1
         data_first = data_first_version_second
         print(''.join(data_first))
         # print(*data_first, sep='')
@@ -67,13 +71,21 @@ def put_data():
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
 
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+        while 0 >= number_journal > len(data_first):
+            number_journal = int(input('Введите номер записи еще раз: '))
+        name, surname, phone, address = input_data()
+        data_first[number_journal-1] = f'{name}\n{surname}\n{phone}\n{address}\n\n'
+        rw_data(data_first, 'data_first_variant.csv')
+
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+        
+        while 0 >= number_journal > len(data_second)/2:
+            number_journal = int(input('Введите номер записи еще раз: '))
+        name, surname, phone, address = input_data()
+        data_second[(number_journal-1)*2] = f'{name};{surname};{phone};{address}\n'
+        rw_data(data_second, 'data_second_variant.csv')
 
 
 def delete_data():
@@ -88,10 +100,17 @@ def delete_data():
     if number_file == 1:  # Можно сделать нумерацию внутри файла
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        
+        while 0 >= number_journal > len(data_first):
+            number_journal = int(input('Введите номер записи еще раз: '))
+        data_first.pop(number_journal-1)
+        rw_data(data_first, 'data_first_variant.csv')
+
     else:
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        
+        while 0 >= number_journal > len(data_second)/2:
+            number_journal = int(input('Введите номер записи еще раз: '))
+        del data_second[(number_journal-1)*2 : (number_journal-1)*2+2]
+        rw_data(data_second, 'data_second_variant.csv')
