@@ -67,13 +67,32 @@ def put_data():
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
 
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+        while 0 >= number_journal > len(data_first):
+            number_journal = int(input('Введите номер записи еще раз: '))
+
+        name = name_data()
+        surname = surname_data()
+        phone = phone_data()
+        address = address_data()
+
+        data_first[number_journal - 1] = f'{name}\n{surname}\n{phone}\n{address}\n'
+
+        with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_first)
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+        while 0 >= number_journal > len(data_second):
+            number_journal = int(input('Введите номер записи еще раз: '))
+
+        name = name_data()
+        surname = surname_data()
+        phone = phone_data()
+        address = address_data()
+        data_second[(number_journal-1) * 2] = f'{name};{surname};{phone};{address}\n'
+
+        with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_second)
 
 
 def delete_data():
@@ -85,13 +104,26 @@ def delete_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
+    if number_file == 1: 
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        
+        while 0 >= number_journal > len(data_first):
+            number_journal = int(input('Введите номер записи еще раз: '))
+        data_first = list(map(str.lstrip, data_first))
+
+        del data_first[number_journal - 1]
+
+        with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_first)
     else:
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        
+        while 0 >= number_journal > len(data_second):
+            number_journal = int(input('Введите номер записи еще раз: '))
+
+        del data_second[(number_journal - 1) * 2: (number_journal - 1) * 2 + 2]
+
+        with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_second)
