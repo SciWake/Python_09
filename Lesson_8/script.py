@@ -4,12 +4,22 @@ import os
 def get_path(mpath: str) -> os.path:
     return os.path.join(os.getcwd(), mpath)
 
+def rewrite_data(data, file):
+    with open(file, 'w', encoding = 'utf-8') as file:
+        for i in data:
+            file.write(i)
 
-def input_data():
+
+def spisok_data():
     name = name_data()
     surname = surname_data()
     phone = phone_data()
     address = address_data()
+    return name, surname, phone, address
+
+
+def input_data():
+    name, surname, phone, address = spisok_data()
 
     var = int(input(f"В каком формате Вы хотите записать данные?\n\n"
                     f"1 Вариант:\n\n"
@@ -33,6 +43,8 @@ def input_data():
             file.write(f'{name};{surname};{phone};{address}\n\n')
 
 
+
+
 def print_data():
     print('Вывожу данные для Вас из 1-ого файла\n')
     with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
@@ -42,7 +54,7 @@ def print_data():
         for i in range(len(data_first)):
             if data_first[i] == '\n' or i == len(data_first) - 1:
                 data_first_version_second.append(''.join(data_first[j:i + 1]))
-                j = i
+                j = i+1
         data_first = data_first_version_second
         print(''.join(data_first))
         # print(*data_first, sep='')
@@ -52,6 +64,9 @@ def print_data():
         data_second = list(file.readlines())
         print(*data_second)
     return data_first, data_second
+
+
+
 
 
 def edit_data():
@@ -67,11 +82,31 @@ def edit_data():
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
 
+
+    while 0 >= number_journal > len(data_first) :
+        number_journal = int(input('Введите номер записи еще раз: '))
+        name, surname, phone, address = spisok_data( )
+        data_first[number_journal-1] = f'{name} \n {surname} \n {phone} \n {address} \n\n'
+        rewrite.data(data.first, 'data_first_variant.csv')
+
+
         # ТУТ НАПИСАТЬ КОД
         # Можно добавить проверку, чтобы человек не выходил за пределы записей
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
+        
+    while 0 >= number_journal > len(data_second)/2 :
+        number_journal = int(input('Введите номер записи еще раз: '))
+        name, surname, phone, address = spisok_data( )
+        data_second[(number_journal-1)*2] = f'{name} ; {surname} ; {phone} ; {address} \n'
+        rewrite.data(data.second, 'data_second_variant.csv')
+
+        
+            
+        
+        
+        
         # ТУТ НАПИСАТЬ КОД
         # Можно добавить проверку, чтобы человек не выходил за пределы записи
 
@@ -88,10 +123,31 @@ def delete_data():
     if number_file == 1:  # Можно сделать нумерацию внутри файла
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
+        
+    while 0 >= number_journal > len(data_first) :
+        number_journal = int(input('Введите номер записи еще раз: '))
+        data_first.pop(number_journal-1)
+        rewrite.data(data_first, 'data_first_variant.csv')
+
+                  
+        
+        
         # Можно добавить проверку, чтобы человек не выходил за пределы записи
         # ТУТ НАПИСАТЬ КОД
     else:
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
+        
+        
+        while 0 >= number_journal > len(data_second)/2 :
+            number_journal = int(input('Введите номер записи еще раз: '))
+            del data_second{(number_journal-1)*2 : (number_journal-1)*2+2}
+            rewrite.data(data_second, 'data_second_variant.csv')
+        
+        
+        
+        
+        
+        
         # Можно добавить проверку, чтобы человек не выходил за пределы записи
         # ТУТ НАПИСАТЬ КОД
