@@ -54,7 +54,7 @@ def print_data():
     return data_first, data_second
 
 
-def put_data():
+def edit_data():
     print('Из какого файла Вы хотите изменить данные?')
     data_first, data_second = print_data()
     number_file = int(input('Введите номер файла: '))
