@@ -1,4 +1,4 @@
-from script import input_data, print_data, delete_data, put_data
+from script import input_data, print_data, edit_data, delete_data 
 
 
 def interface():
@@ -18,6 +18,6 @@ def interface():
     elif command == 2:
         delete_data()
     elif command == 3:
-        put_data()
+        edit_data()
     else:
         print_data()
