@@ -87,7 +87,7 @@ def put_data():
         number_journal = int(input('Введите номер записи: '))
         # ТУТ НАПИСАТЬ КОД
         # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        while len(data_first) < number_journal <= 0:
+        while len(data_second) < number_journal <= 0:
             number_journal = int(input('Введите номер записи еще раз: '))
 
         name = name_data()
@@ -128,7 +128,7 @@ def delete_data():
         number_journal = int(input('Введите номер записи: '))
         # Можно добавить проверку, чтобы человек не выходил за пределы записи
         # ТУТ НАПИСАТЬ КОД
-        while len(data_first) < number_journal <= 0:
+        while len(data_second) < number_journal <= 0:
             number_journal = int(input('Введите номер записи еще раз: '))
 
         del data_second[(number_journal - 1) * 2: (number_journal - 1) * 2 + 2]
