@@ -67,24 +67,24 @@ def edit (csv_file):
             print("let's do it again)!")
             number_journal = int(input('Введите номер записи: '))
             
+
         for i, line in enumerate(lines):
             if i == number_journal -1 :
                 if input(f"this one? {line} \nif yes type y: ").lower() == "y":                        
                     new_value = input("What would you wish to write instead: ")
-                    value = new_value
-                    a = "".join(lines).replace(line, value)
+                    lines = "".join(lines).replace(line, new_value)
                 else:
-                    put_data()
+                    edit(csv_file)
 
         with open ("data_first_variant.csv",  "w", encoding="utf-8") as file:
-            file.writelines(a)
+            file.writelines(lines)
 
-        if input("that's it?\nif no type n").lower() == "n":
+        if input("that's it?\nif no type n: ").lower() == "n":
             put_data()
 
 def put_data():
     print('Из какого файла Вы хотите изменить данные?')
-    data_first, data_second = print_data()
+    print_data()
     number_file = int(input('Введите номер файла: '))
 
     while number_file != 1 and number_file != 2:
@@ -101,6 +101,20 @@ def put_data():
 
 
 
+
+        
+
+
+
+    # Можно добавить проверку, чтобы человек не выходил за пределы записи
+    # ТУТ НАПИСАТЬ КОД
+
+
+    
+
+
+
+
 def delete_data():
     print('Из какого файла Вы хотите удалить данные?')
     data_first, data_second = print_data()
@@ -110,13 +124,45 @@ def delete_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+    if number_file == 1: 
+         # Можно сделать нумерацию внутри файла
+        with open("data_first_variant.csv", "r", encoding="utf-8" ) as data:
+            lines = data.readlines()
+
+        print(*lines)
+        choose_one = input("Какую именно запись по счету Вы хотите удалить? ")
+        for i, line in enumerate(lines) :
+            if i == int(choose_one) -1:
+                print(line)
+                choose_exactly = int(input("exactly which one?"))        
+                must_be_deleted = [value for index, value in enumerate(line.split(";")) if index == int(choose_exactly) - 1]
+                confirm = input(f"this one? {must_be_deleted}\n type y for yes: ")
+                if confirm.lower() == "y":
+                    updated_data = [f"{i};" for i in line.split(";") if [i] != must_be_deleted]
+
+                    with open (csv_file, "w", encoding="utf-8") as file:
+                        file.writelines(updated_data)
+                        print("Done!")
+        
     else:
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        with open("data_second_variant.csv", "r", encoding="utf-8" ) as data:
+            lines = data.readlines()
+
+        print(*lines)
+        choose_one = input("Какую именно запись по счету Вы хотите удалить? ")
+        
+        for i, line in enumerate(lines) :
+            if i == int(choose_one) -1:
+                print(line)
+                choose_exactly = int(input("exactly which one?"))        
+                must_be_deleted = [value for index, value in enumerate(line.split(";")) if index == int(choose_exactly) - 1]
+                confirm = input(f"this one? {must_be_deleted}\n type y for yes: ")
+                
+                if confirm.lower() == "y":
+                    updated_data = [f"{i};" for i in line.split(";") if [i] != must_be_deleted]
+
+                    with open (csv_file, "w", encoding="utf-8") as file:
+                        file.writelines(updated_data)
+                        print("Done!")
+
+delete_data()
