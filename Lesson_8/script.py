@@ -30,7 +30,7 @@ def input_data():
             file.write(f'{name}\n{surname}\n{phone}\n{address}\n\n')
     else:
         with open('data_second_variant.csv', 'a', encoding='utf-8') as file:
-            file.write(f'{name};{surname};{phone};{address}\n\n')
+            file.write(f'{name};{surname};{phone};{address}\n')
 
 
 def print_data():
@@ -54,7 +54,7 @@ def print_data():
     return data_first, data_second
 
 
-def put_data():
+def edit_data():
     print('Из какого файла Вы хотите изменить данные?')
     data_first, data_second = print_data()
     number_file = int(input('Введите номер файла: '))
@@ -63,18 +63,32 @@ def put_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
 
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+    if number_file == 1:    # Можно сделать нумерацию внутри файла
+        print("Какую именно строку по счету Вы хотите изменить? Пустые строки тоже считаются")
+        number_journal = int(input('Введите номер строки: '))
+        with open('data_first_variant.csv', 'r+', encoding='utf-8') as file:
+            data_first_raw = file.readlines()
+        if number_journal > len(data_first_raw):
+            print("Посчитай строки еще раз")
+        else:
+            with open('data_first_variant.csv', 'r+', encoding='utf-8') as file:
+                data_first = file.readlines()
+                data_first[number_journal-1] = str(input("Введите новое значение: ")) + "\n"
+                file.seek(0)
+                file.writelines(data_first)
+
     else:
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-
+        print("Какую именно строку по счету Вы хотите изменить?")
+        number_journal = int(input('Введите номер строки: '))
+        if number_journal > len(data_second):
+            print("Пересчитай строки еще раз")
+        else:
+            with open('data_second_variant.csv', 'r+', encoding='utf-8') as file:
+                data_second = file.readlines()
+                data_second[number_journal-1] = str(input("Перепишите строку используя ';' в качестве разделителя: ")) + "\n"
+                file.seek(0)
+                file.writelines(data_second)
 
 def delete_data():
     print('Из какого файла Вы хотите удалить данные?')
@@ -86,12 +100,29 @@ def delete_data():
         number_file = int(input('Введите номер файла: '))
 
     if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите удалить?")
+        print("Какую именно запись по счету Вы хотите удалить? Пустрые строки тоже считаются!")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        with open('data_first_variant.csv', 'r+', encoding='utf-8') as file:
+            data_first_raw = file.readlines()
+        if number_journal > len(data_first_raw):
+            print('Такой строки нет!')
+        else:
+            with open('data_first_variant.csv', 'r+', encoding='utf-8') as file:
+                data_first = file.readlines()
+                del data_first[number_journal-1]
+                file.seek(0)
+                file.truncate(len(data_first))
+                file.writelines(data_first)
+
     else:
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        if number_journal > len(data_second):
+            print('Такой строки нет!')
+        else:
+            with open('data_second_variant.csv', 'r+', encoding='utf-8') as file:
+                data_second = file.readlines()
+                del data_second[number_journal-1]
+                file.seek(0)
+                file.truncate(len(data_second))
+                file.writelines(data_second)
