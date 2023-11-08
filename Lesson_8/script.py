@@ -53,57 +53,44 @@ def print_data():
         print(*data_second)
     return data_first, data_second
 
-def edit (csv_file):
-        
+
+def edit_data():
+    print('Из какого файла Вы хотите изменить данные?')
+    print_data()
+    number_file = int(input('Введите номер файла: '))
+    
+    while number_file != 1 and number_file != 2:
+        print('Ты дурак?! Даю тебе последний шанс')
+        number_file = int(input('Введите номер файла: '))
+
+
+    if number_file == 1:  
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
 
-        with open (csv_file,  "r", encoding="utf-8") as data:
+        with open ("data_first_variant.csv",  "r", encoding="utf-8") as data:
             lines = data.readlines()
 
         while number_journal > len(lines):
             print("let's do it again)!")
             number_journal = int(input('Введите номер записи: '))
-            
-
+        
+        first_updated_data = []
         for i, line in enumerate(lines):
             if i == number_journal -1 :
                 if input(f"this one? {line} \nif yes type y: ").lower() == "y":                        
                     new_value = input("What would you wish to write instead: ")
-                    lines = "".join(lines).replace(line, new_value)
-                else:
-                    edit(csv_file)
+                    first_updated_data.append("".join(lines).replace(line, f"{new_value}\n"))
+
 
         with open ("data_first_variant.csv",  "w", encoding="utf-8") as file:
-            file.writelines(lines)
+            file.writelines(first_updated_data)
 
         if input("that's it?\nif no type n: ").lower() == "n":
-            put_data()
+            edit_data()
 
-def put_data():
-    print('Из какого файла Вы хотите изменить данные?')
-    print_data()
-    number_file = int(input('Введите номер файла: '))
-
-    while number_file != 1 and number_file != 2:
-        print('Ты дурак?! Даю тебе последний шанс')
-        number_file = int(input('Введите номер файла: '))
-
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        edit("data_first_variant.csv")
 
     else:
-                
-        print('Из какого файла Вы хотите изменить данные?')
-        print_data()
-        number_file = int(input('Введите номер файла: '))
-
-        while number_file != 1 and number_file != 2:
-            print('Ты дурак?! Даю тебе последний шанс')
-            number_file = int(input('Введите номер файла: '))
-
         with open ("data_second_variant.csv",  "r", encoding="utf-8") as data:
             lines = data.readlines()
         print(*[(i+1, value) for i, value in enumerate(lines)], end="\n\n")
@@ -113,7 +100,7 @@ def put_data():
         while number_journal > len(lines):
             print("let's do it again)!")
             number_journal = int(input('Введите номер записи: '))
-
+        secnd_updated_data = []
         for i, line in enumerate(lines):
             if i == number_journal -1:
                 print(*[(i+1, value) for i, value in enumerate(line.strip().split(";"))], end="\n\n")
@@ -121,15 +108,15 @@ def put_data():
 
                 if input(f"this one? {line.split(';')[choose_exactly-1]} \nif yes type y: ").lower() == "y":                        
                     new_value = input("\nWhat would you wish to write instead: ")
-                    uptadet_data = ("".join(lines).replace(line.split(';')[choose_exactly-1], new_value))
-                else:
-                    edit("data_second_variant.csv")
+                    secnd_updated_data.append("".join(line).replace(line.split(';')[choose_exactly-1], new_value))
+            else:
+                secnd_updated_data.append(line)
 
         with open ("data_second_variant.csv",  "w", encoding="utf-8") as file:
-            file.writelines(uptadet_data)
+            file.writelines(secnd_updated_data)
 
         if input("that's it?\nif no type n: ").lower() == "n":
-            put_data()
+            edit_data()
            
 
 
@@ -147,103 +134,69 @@ def delete_data():
     if number_file == 1: 
         with open("data_first_variant.csv", "r") as input_csv:
             lines = input_csv.readlines()
+        count = 1
 
-            # нумерация внутри файла
-            print([str(i+1)+ ": " + line for i, line in enumerate(lines)])
-            choose_one = input("Какую именно запись по счету Вы хотите удалить? ")
+        print(*[(i+1, line) for i, line in enumerate(lines)])
+        choose_one = input("Какую именно запись по счету Вы хотите удалить? ")
 
-            # ПРОВЕРКА 
+
+        # ПРОВЕРКА 
+        if choose_one.isdigit():
+                choose_one = int(choose_one)
+        while isinstance(choose_one, str):
+            choose_one = input("Выберите цифрами пжлйста: ")
             if choose_one.isdigit():
-                    choose_one = int(choose_one)
-            while isinstance(choose_one, str):
-                choose_one = input("Выберите цифрами пжлйста: ")
-                if choose_one.isdigit():
-                    choose_one = int(choose_one)
-            while choose_one > len(lines):
-                choose_one = int(input(f"Выберите еще раз пжлйста в районе (от 0 до {len(lines)}): "))
+                choose_one = int(choose_one)
+        while choose_one > len(lines):
+            choose_one = int(input(f"Выберите еще раз пжлйста в районе (от 0 до {len(lines)}): "))
 
-            # DO NOT ADD SELECTED ONE!
-            updated_data = []
-            for line in lines:
-                if [line] != [lines[int(choose_one) - 1]]:
-                    updated_data.append(line)
-                    with open ("data_first_variant.csv", "w") as output_csv:
-                        output_csv.writelines(updated_data)
-            print(*updated_data, "DONE!")
+        updated_data = []
+        
+        for index, line in enumerate(lines):
+            print(*line.split("\n\n"))
+            if index != int(choose_one) - 1:
+                updated_data.append(line)
+            
+        with open ("data_first_variant.csv", "w") as output_csv:
+            output_csv.writelines(updated_data)
+
+        print("DONE!")
+
         
     else:        
         with open("data_second_variant.csv", "r", encoding="utf-8" ) as data:
             lines = data.readlines()
-            count = 0
-            for i in lines:
-                count +=1
-                print(count, i.strip())
-            print(".......", end="\n")    
-            choose_one = int(input(f"Какую именно запись по счету Вы хотите удалить? Выберите чисто от 1 до {len(lines)} "))
-                # ПРОВЕРКА 
-            while choose_one > len(lines):
-                choose_one = int(input(f"Выберите чисто от 1 до {len(lines)} "))
-                
-            updated_data = []
-            if choose_one <= len(lines):
-                        
-                for line in lines:
-                    if [line] != [lines[choose_one - 1]]:
-                        updated_data.append(line)
+        count = 0
+        for i in lines:
+            count +=1
+            print(count, i.strip())
+        print(".......", end="\n")    
+        choose_one = int(input(f"Какую именно запись по счету Вы хотите удалить? Выберите ЧИСЛО от 1 до {len(lines)} "))
 
-                    elif [line] == [lines[choose_one - 1]]:
-                        print([(i+1,u) for i, u in enumerate(line.split(";")) ])
-                        chose_exactly = int(input("Что именно?"))
+            # ПРОВЕРКА 
+        while choose_one > len(lines) :
+            choose_one = int(input(f"Выберите ЧИСЛО от 1 до {len(lines)} "))
+            
+        updated_data = []
+        if choose_one <= len(lines):
+            for index, line in enumerate(lines):
+                if index != choose_one - 1:
+                    updated_data.append(line)
 
-                        ask_change = input("would you like to renew it?\n type y for yes: ").lower()
-                        if ask_change == "y":
-                            put_data()
-                        
-                        updated_data.append(";".join([i for i in line.split(';') if [i] != [line[chose_exactly-1]]]))
+                elif index == choose_one - 1:
+                    print([(i+1,u) for i, u in enumerate(line.split(";"))])
+                    chose_exactly = int(input("Что именно?"))
 
-
-                with open ("data_second_variant.csv", "w") as updated_lines:
-                    updated_lines.writelines(updated_data)
-                    print(updated_data, "DONE!")
-            else:
-                print("Try to use numbers within the range!")
-                delete_data()
-    
+                    ask_change = input("would you like to renew  it?\n type y for yes: ").lower()
+                    if ask_change == "y":
+                        edit_data()
+                    
+                    updated_data.append(";".join([line for i, line in enumerate(line.split(';')) if i != chose_exactly - 1]))
 
 
-print('Из какого файла Вы хотите изменить данные?')
-print_data()
-number_file = int(input('Введите номер файла: '))
-
-while number_file != 1 and number_file != 2:
-    print('Ты дурак?! Даю тебе последний шанс')
-    number_file = int(input('Введите номер файла: '))
-# ТУТ НАПИСАТЬ КОД
-# Можно добавить проверку, чтобы человек не выходил за пределы записей
-
-with open ("data_second_variant.csv",  "r", encoding="utf-8") as data:
-    lines = data.readlines()
-print(*[(i+1, value) for i, value in enumerate(lines)], end="\n\n")
-print("Какую именно запись по счету Вы хотите изменить?", end="\n\n")
-number_journal = int(input('Введите номер записи: '))
-
-while number_journal > len(lines):
-    print("let's do it again)!")
-    number_journal = int(input('Введите номер записи: '))
-
-for i, line in enumerate(lines):
-    if i == number_journal -1:
-        print(*[(i+1, value) for i, value in enumerate(line.strip().split(";"))], end="\n\n")
-        choose_exactly = int(input("\nЧто именно? "))
-
-        if input(f"this one? {line.split(';')[choose_exactly-1]} \nif yes type y: ").lower() == "y":                        
-            new_value = input("\nWhat would you wish to write instead: ")
-            uptadet_data = ("".join(lines).replace(line.split(';')[choose_exactly-1], new_value))
+            with open ("data_second_variant.csv", "w") as updated_lines:
+                updated_lines.writelines(updated_data)
+                print("DONE!")
         else:
-            edit("data_second_variant.csv")
-
-with open ("data_second_variant.csv",  "w", encoding="utf-8") as file:
-    file.writelines(uptadet_data)
-
-if input("that's it?\nif no type n: ").lower() == "n":
-    put_data()
+            print("Try to use numbers within the range!")
+            delete_data()
