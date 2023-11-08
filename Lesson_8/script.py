@@ -106,8 +106,8 @@ def edit_data():
                 print(*[(i+1, value) for i, value in enumerate(line.strip().split(";"))], end="\n\n")
                 choose_exactly = int(input("\nЧто именно? "))
 
-                if input(f"this one? {line.split(';')[choose_exactly-1]} \nif yes type y: ").lower() == "y":                        
-                    new_value = input("\nWhat would you wish to write instead: ")
+                if input(f"Вот этот? {line.split(';')[choose_exactly-1]} \n Если да так и напишите да: ").lower() == "да":                        
+                    new_value = input("\nЧто написать вместо? ")
                     secnd_updated_data.append("".join(line).replace(line.split(';')[choose_exactly-1], new_value))
             else:
                 secnd_updated_data.append(line)
@@ -115,7 +115,7 @@ def edit_data():
         with open ("data_second_variant.csv",  "w", encoding="utf-8") as file:
             file.writelines(secnd_updated_data)
 
-        if input("that's it?\nif no type n: ").lower() == "n":
+        if input("That's it?\nIf no type НЕТ: ").lower() == "нет":
             edit_data()
            
 
@@ -124,7 +124,7 @@ def edit_data():
 
 def delete_data():
     print('Из какого файла Вы хотите удалить данные?')
-    data_first, data_second = print_data()
+    print_data()
     number_file = int(input('Введите номер файла: '))
 
     while number_file != 1 and number_file != 2:
@@ -187,8 +187,8 @@ def delete_data():
                     print([(i+1,u) for i, u in enumerate(line.split(";"))])
                     chose_exactly = int(input("Что именно?"))
 
-                    ask_change = input("would you like to renew  it?\n type y for yes: ").lower()
-                    if ask_change == "y":
+                    ask_change = input("Чем-то заменить?\n Если да так и напишите да : ").lower()
+                    if ask_change == "да":
                         edit_data()
                     
                     updated_data.append(";".join([line for i, line in enumerate(line.split(';')) if i != chose_exactly - 1]))
@@ -198,5 +198,5 @@ def delete_data():
                 updated_lines.writelines(updated_data)
                 print("DONE!")
         else:
-            print("Try to use numbers within the range!")
+            print("Не выходите за пределы!")
             delete_data()
