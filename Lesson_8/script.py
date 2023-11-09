@@ -1,15 +1,17 @@
-from data_create import name_data, surname_data, phone_data, address_data
 import os
+
+from data_create import set_data
+
+FIRST_FILENAME = 'data_first_variant.csv'
+SECOND_FILENAME = 'data_second_variant.csv'
+
 
 def get_path(mpath: str) -> os.path:
     return os.path.join(os.getcwd(), mpath)
 
 
 def input_data():
-    name = name_data()
-    surname = surname_data()
-    phone = phone_data()
-    address = address_data()
+    name, surname, phone, address = set_data()
 
     var = int(input(f"В каком формате Вы хотите записать данные?\n\n"
                     f"1 Вариант:\n\n"
@@ -23,75 +25,170 @@ def input_data():
 
     while var != 1 and var != 2:
         print('Попробуйте ещё раз выбрать правильную команду')
-        var = int(input("Введите номер варианта: "))
+        var = int(input('Введите номер варианта: '))
 
     if var == 1:
-        with open('data_first_variant.csv', 'a', encoding='utf-8') as file:
+        with open(FIRST_FILENAME, 'a', encoding='utf-8') as file:
             file.write(f'{name}\n{surname}\n{phone}\n{address}\n\n')
     else:
-        with open('data_second_variant.csv', 'a', encoding='utf-8') as file:
-            file.write(f'{name};{surname};{phone};{address}\n\n')
+        with open(SECOND_FILENAME, 'a', encoding='utf-8') as file:
+            file.write(f'{name};{surname};{phone};{address}\n')
 
 
-def print_data():
-    print('Вывожу данные для Вас из 1-ого файла\n')
-    with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
-        data_first = file.readlines()
-        data_first_version_second = []
-        j = 0
+def read_data(number_file):
+    exist_first = os.path.exists(FIRST_FILENAME)
+    exist_second = os.path.exists(SECOND_FILENAME)
+    if not exist_first and not exist_second:
+        print('Файлы не существуют')
+        return
+
+    if number_file == 1 and exist_first:
+        with open(FIRST_FILENAME, 'r', encoding='utf-8') as file:
+            data_first = file.readlines()
+            data_first_version_second = []
+            j = 0
+            for i in range(len(data_first)):
+                if data_first[i] == '\n' or i == len(data_first) - 1:
+                    data_first_version_second.append(''.join(data_first[j:i + 1]))
+                    j = i + 1
+            data_first = data_first_version_second
+            return data_first
+
+    if number_file == 2 and exist_second:
+        with open(SECOND_FILENAME, 'r', encoding='utf-8') as file:
+            data_second = list(file.readlines())
+            return data_second
+
+
+def print_data(number_file):
+    if number_file == 1 or number_file == 0:
+        print('---------------------------------------------')
+
+        data_first = read_data(1)
+        if is_list_blank(data_first):
+            print('Данные в 1-ом файле отсутствуют\n')
+            return
+
+        print('Вывожу данные для Вас из 1-ого файла\n')
         for i in range(len(data_first)):
-            if data_first[i] == '\n' or i == len(data_first) - 1:
-                data_first_version_second.append(''.join(data_first[j:i + 1]))
-                j = i
-        data_first = data_first_version_second
+            index = str(i + 1) + '\n'
+            data_first[i] = index + data_first[i]
         print(''.join(data_first))
-        # print(*data_first, sep='')
 
-    print('Вывожу данные для Вас из 2-ого файла\n')
-    with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
-        data_second = list(file.readlines())
-        print(*data_second)
-    return data_first, data_second
+    if number_file == 2 or number_file == 0:
+        print('---------------------------------------------')
+
+        data_second = read_data(2)
+        if is_list_blank(data_second):
+            print('Данные в 2-ом файле отсутствуют\n')
+            return
+
+        print('Вывожу данные для Вас из 2-ого файла\n')
+        for i in range(len(data_second)):
+            index = str(i + 1) + ' '
+            data_second[i] = index + data_second[i].replace(';', ' ')
+        print(*data_second, sep='')
+
+
+def get_number_file():
+    number_file = int(input('Введите номер файла: '))
+    while number_file != 1 and number_file != 2:
+        print('Неправильный выбор, повторите')
+        number_file = int(input('Введите номер файла: '))
+    return number_file
+
+
+def is_list_blank(list_data):
+    if not list_data or len(list_data) == 0:
+        return True
+    else:
+        return False
+
+
+def get_number_journal(data, number_file, action):
+    print_data(number_file)
+    print('Какую именно запись по счету Вы хотите ' + action + '?')
+    number_journal = int(input('Введите номер записи: '))
+    while 0 <= number_journal > len(data):
+        number_journal = int(input('Введите номер записи еще раз: '))
+    return number_journal
+
+
+def write_files(file_name, data):
+    with open(file_name, 'w', encoding='utf-8') as file:
+        file.writelines(data)
 
 
 def put_data():
-    print('Из какого файла Вы хотите изменить данные?')
-    data_first, data_second = print_data()
-    number_file = int(input('Введите номер файла: '))
+    print('В каком файле Вы хотите изменить данные?')
+    number_file = get_number_file()
 
-    while number_file != 1 and number_file != 2:
-        print('Ты дурак?! Даю тебе последний шанс')
-        number_file = int(input('Введите номер файла: '))
+    data = read_data(number_file)
+    if is_list_blank(data):
+        print('Данные отсутствуют')
+        return
+
+    number_journal = get_number_journal(data, number_file, 'изменить')
+
+    print('Заполните новые данные')
+    name, surname, phone, address = set_data()
 
     if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+        data[number_journal - 1] = f'{name}\n{surname}\n{phone}\n{address}\n\n'
+        write_files(FIRST_FILENAME, data)
     else:
-        print("Какую именно запись по счету Вы хотите изменить?")
-        number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+        data[number_journal - 1] = f'{name};{surname};{phone};{address}\n'
+        write_files(SECOND_FILENAME, data)
+
+    print('Запись ' + str(number_journal) + ' изменена успешно')
 
 
 def delete_data():
     print('Из какого файла Вы хотите удалить данные?')
-    data_first, data_second = print_data()
-    number_file = int(input('Введите номер файла: '))
+    number_file = get_number_file()
 
-    while number_file != 1 and number_file != 2:
-        print('Ты дурак?! Даю тебе последний шанс')
-        number_file = int(input('Введите номер файла: '))
+    data = read_data(number_file)
+    if is_list_blank(data):
+        print('Данные отсутствуют')
+        return
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+    number_journal = get_number_journal(data, number_file, 'удалить')
+
+    del data[number_journal - 1]
+    if number_file == 1:
+        write_files(FIRST_FILENAME, data)
     else:
-        print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        write_files(SECOND_FILENAME, data)
+
+    print('Запись ' + str(number_journal) + ' удалена успешно')
+
+
+def copy_paste_data():
+    print('Из какого файла Вы собираетесь копировать запись?')
+    num_copy_file = get_number_file()
+
+    if num_copy_file == 1:
+        number_paste_file = 2
+    else:
+        number_paste_file = 1
+
+    copy_data = read_data(num_copy_file)
+    if is_list_blank(copy_data):
+        print('Данные отсутствуют')
+        return
+
+    number_journal = get_number_journal(copy_data, num_copy_file, 'скопировать')
+
+    element = copy_data[number_journal - 1]
+    element = element[:-1]
+
+    if number_paste_file == 1:
+        element = element.replace(';', '\n') + '\n'
+        with open(FIRST_FILENAME, 'a', encoding='utf-8') as file:
+            file.write(element)
+    else:
+        element = element.replace('\n', ';') + '\n'
+        with open(SECOND_FILENAME, 'a', encoding='utf-8') as file:
+            file.write(element)
+
+    print('Запись ' + str(number_journal) + ' скопирована успешно')

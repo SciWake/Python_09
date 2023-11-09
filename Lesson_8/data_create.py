@@ -1,19 +1,27 @@
 def name_data():
-    name = input('Введите Ваше имя: ')
-    print('Очень красивое имя! (а меня зовут гб_бот, меня создала компания GeekBrains!')
+    name = input('Введите "Имя": ')
+    print('Очень красивое имя)')
     return name
 
 
 def surname_data():
-    surname = input('Введите Вашу фамилию: ')
+    surname = input('Введите "Фамилию": ')
     return surname
 
 
 def phone_data():
-    phone = input('Введите Ваш телефон: ')
+    phone = input('Введите "Телефон": ')
     return phone
 
 
 def address_data():
-    address = input('Введите Ваш адрес: ')
+    address = input('Введите "Адрес": ')
     return address
+
+
+def set_data():
+    name = name_data()
+    surname = surname_data()
+    phone = phone_data()
+    address = address_data()
+    return name, surname, phone, address
