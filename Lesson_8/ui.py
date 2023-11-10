@@ -21,3 +21,4 @@ def interface():
         put_data()
     else:
         print_data()
+interface()
