@@ -68,6 +68,8 @@ def put_data():
         number_journal = int(input('Введите номер записи: '))
         while number_journal != 1 and number_journal != 2:
             print('Ты дурак?! Даю тебе последний шанс')
+
+
         if number_journal == 1:
             print("Какую именно строку Вы хотите изменить?")
             number_str1 = input('Введите имя строки (Имя, Фамилия, Телефон или Адрес): ').lower().strip()
@@ -94,9 +96,10 @@ def put_data():
                         data_first_version_second.append(''.join(data_first[j:i]))
                         j = i
                 data_first = data_first_version_second
-                with open('data_first_variant.csv', 'a', encoding='utf-8') as file:
+                with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
                     file.write(''.join(data_first))
             print("Данные изменены. Спасибо, что вы с нами!")
+
 
         if number_journal == 2:
             print("Какую именно строку Вы хотите изменить?")
@@ -124,14 +127,101 @@ def put_data():
                         data_first_version_second.append(''.join(data_first[j:i]))
                         j = i
                 data_first = data_first_version_second
-                with open('data_first_variant.csv', 'a', encoding='utf-8') as file:
+                with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
                     file.write(''.join(data_first))
             print("Данные изменены. Спасибо, что вы с нами!")
 
     if number_file == 2:
+        print("Какую именно запись по счету Вы хотите изменить?")
+        number_journal = int(input('Введите номер записи: '))
+        while number_journal != 1 and number_journal != 2:
+            print('Ты дурак?! Даю тебе последний шанс')
+
+
+        if number_journal == 1:
+            print("Какую именно строку Вы хотите изменить?")
+            number_str2 = input('Введите имя строки (Имя, Фамилия, Телефон или Адрес): ').lower().strip()
+            if number_str2 == 'имя':
+                number_str2 = 0
+            if number_str2 == 'фамилия':
+                number_str2 = 1
+            if number_str2 == 'телефон':
+                number_str2 = 2
+            if number_str2 == 'адрес':
+                number_str2 = 3
+            else:
+                print("Введите корректное название строки!")
+            name_str2 = str(input("Введите новые данные: "))
         with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
             data_second = list(file.readlines())
-            print(data_second)
+            all = []
+            for i in data_second:
+                split_str = i.split(';')
+                all.extend(split_str)
+            data_second = all
+            for i in range(len(data_second)):
+                if number_str2 == i:
+                    data_second[i] = name_str2
+                elif i == 3 and number_str2 == i:
+                    data_second[i] = name_str2 + '\n'
+            split_res = []        
+            for i in range(len(data_second)):
+                if data_second[i] == '\n':
+                    split_res.append(data_second[i])
+                if i == 0 or data_second[i-1] == '\n':
+                    split_res.append(data_second[i])
+                else:
+                    split_res[-1] = split_res[-1] + ';' + data_second[i]
+            data_second = split_res
+            for i in range(len(data_second)):
+                if data_second[i] == '\n;\n':
+                    data_second[i] = '\n'
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(*data_second)
+            print("Данные изменены. Спасибо, что вы с нами!")
+
+
+        if number_journal == 2:
+            print("Какую именно строку Вы хотите изменить?")
+            number_str2 = input('Введите имя строки (Имя, Фамилия, Телефон или Адрес): ').lower().strip()
+            if number_str2 == 'имя':
+                number_str2 = 5
+            if number_str2 == 'фамилия':
+                number_str2 = 6
+            if number_str2 == 'телефон':
+                number_str2 = 7
+            if number_str2 == 'адрес':
+                number_str2 = 8
+            else:
+                print("Введите корректное название строки!")
+            name_str2 = str(input("Введите новые данные: "))
+        with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
+            data_second = list(file.readlines())
+            all = []
+            for i in data_second:
+                split_str = i.split(';')
+                all.extend(split_str)
+            data_second = all
+            for i in range(len(data_second)):
+                if number_str2 == i:
+                    data_second[i] = name_str2
+                elif i == 8 and number_str2 == i:
+                    data_second[i] = name_str2 + '\n'
+            split_res = []        
+            for i in range(len(data_second)):
+                if data_second[i] == '\n':
+                    split_res.append(data_second[i])
+                if i == 0 or data_second[i-1] == '\n':
+                    split_res.append(data_second[i])
+                else:
+                    split_res[-1] = split_res[-1] + ';' + data_second[i]
+            data_second = split_res
+            for i in range(len(data_second)):
+                if data_second[i] == '\n;\n':
+                    data_second[i] = '\n'
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(*data_second)
+            print("Данные изменены. Спасибо, что вы с нами!")
         return data_first, data_second
             # print(*data_first, sep='')
 #         # Можно добавить проверку, чтобы человек не выходил за пределы записей
@@ -161,11 +251,48 @@ def put_data():
 #         number_journal = int(input('Введите номер записи: '))
 #         # Можно добавить проверку, чтобы человек не выходил за пределы записи
 #         # ТУТ НАПИСАТЬ КОД
-with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
-            data_second = list(file.readlines())
-            all = []
-            for i in data_second:
-                split_str = i.split(';')
-                all.extend(split_str)
-            data_second = all
-            print(data_second)
+
+
+# print("Какую именно запись по счету Вы хотите изменить?")
+# number_journal = int(input('Введите номер записи: '))
+# while number_journal != 1 and number_journal != 2:
+#     print('Ты дурак?! Даю тебе последний шанс')
+# if number_journal == 1:
+#     print("Какую именно строку Вы хотите изменить?")
+#     number_str2 = input('Введите имя строки (Имя, Фамилия, Телефон или Адрес): ').lower().strip()
+#     if number_str2 == 'имя':
+#         number_str2 = 0
+#     if number_str2 == 'фамилия':
+#         number_str2 = 1
+#     if number_str2 == 'телефон':
+#         number_str2 = 2
+#     if number_str2 == 'адрес':
+#         number_str2 = 3
+#     else:
+#         print("Введите корректное название строки!")
+#     name_str2 = str(input("Введите новые данные: "))
+#     with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
+#             data_second = list(file.readlines())
+#             all = []
+#             for i in data_second:
+#                 split_str = i.split(';')
+#                 all.extend(split_str)
+#             data_second = all
+#             for i in range(len(data_second)):
+#                 if number_str2 == i:
+#                     data_second[i] = name_str2
+#                 elif i == 3 and number_str2 == i:
+#                     data_second[i] = name_str2 + '\n'
+#             split_res = []        
+#             for i in range(len(data_second)):
+#                 if data_second[i] == '\n':
+#                     split_res.append(data_second[i])
+#                 if i == 0 or data_second[i-1] == '\n':
+#                     split_res.append(data_second[i])
+#                 else:
+#                     split_res[-1] = split_res[-1] + ';' + data_second[i]
+#             data_second = split_res
+#             for i in range(len(data_second)):
+#                 if data_second[i] == '\n;\n':
+#                     data_second[i] = '\n'
+#             print(data_second)
