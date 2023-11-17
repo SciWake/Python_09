@@ -45,12 +45,11 @@ def print_data():
                 j = i
         data_first = data_first_version_second
         print(''.join(data_first))
-        # print(*data_first, sep='')
 
     print('Вывожу данные для Вас из 2-ого файла\n')
     with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
         data_second = list(file.readlines())
-        print(*data_second)
+        print(*data_second, sep = '')
     return data_first, data_second
 
 
@@ -66,14 +65,37 @@ def put_data():
     if number_file == 1:  # Можно сделать нумерацию внутри файла
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
-
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+        if 0 < number_journal <= len(data_first):
+            print('Введите новые данные:')
+            new_name = name_data()
+            new_surname = surname_data()
+            new_phone = phone_data()
+            new_address = address_data()
+            data_first[number_journal - 1] = f'{new_name}\n{new_surname}\n{new_phone}\n{new_address}\n\n'   
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(''.join(data_first))
+                print('Данные успешно изменены!')
+        else:
+            print('Этого номера записи не существует')
+            print('Укажите корректный номер записи')           
+    
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+        if 0 < number_journal <= len(data_second):
+            print('Введите новые данные:')
+            new_name = name_data()
+            new_surname = surname_data()
+            new_phone = phone_data()
+            new_address = address_data()
+            data_second[number_journal - 1] = f'{new_name};{new_surname};{new_phone};{new_address}\n\n'
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(''.join(data_second))
+                print('Ваши данные  изменены!')
+        else:
+            print('Этого номера записи не существует')
+            print('Укажите корректный номер записи')        
+        
 
 
 def delete_data():
@@ -84,14 +106,32 @@ def delete_data():
     while number_file != 1 and number_file != 2:
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
-
+    
     if number_file == 1:  # Можно сделать нумерацию внутри файла
         print("Какую именно запись по счету Вы хотите удалить?")
-        number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+        number_journal = int(input('Введите номер записи: '))    
+
+        while 1 > number_journal > len(data_first):
+            print('Указан некорректный номер записи\n')
+            number_journal = int(input('Введите номер записи: '))
+        if 0 < number_journal <= len(data_first):
+            del data_first[number_journal - 1]
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(''.join(data_first))
+                print('Запись успешно удалена!')
+        else:
+            print('Неверный номер записи!')
     else:
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+
+        while 1 > number_journal > len(data_second):
+            print('Указан некорректный номер записи\n')
+            number_journal = int(input('Введите номер записи: '))
+        if 0 < number_journal <= len(data_second):
+            del data_second[number_journal - 1]
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(''.join(data_second))
+                print('Запись успешно удалена!')
+        else:
+            print('Неверный номер записи!')            
