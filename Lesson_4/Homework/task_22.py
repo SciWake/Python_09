@@ -8,11 +8,12 @@ m - кол-во элементов второго множества. Затем
 """
 
 n = int(input("Кол-во элементов первого множества: "))
-set_1 = set([int(input()) for _ in range(n)])
+set_1 = set(int(input()) for _ in range(n))
 
 m = int(input("Кол-во элементов второго множества: "))
-set_2 = set([int(input()) for _ in range(m)])
+set_2 = set(int(input()) for _ in range(m))
 
-kool = set_1 & set_2
-for i in kool:
+kool = list(set_1 & set_2)
+
+for i in sorted(kool):
    print(i, end=' ')

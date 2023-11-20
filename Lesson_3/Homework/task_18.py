@@ -17,7 +17,7 @@ for i in range(n):
     list_1.append(x)
 
 x = int(input("Введите число, чтобы найти ближайшее число в массиве: "))
-dist= abs(x - list_1[0])  # модуль числа
+dist = abs(x - list_1[0])  # модуль числа
 number = list_1[0]
 for i in range(1, n):
     if dist > abs(list_1[i] - x):

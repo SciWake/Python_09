@@ -22,7 +22,7 @@ count_2 = (b + 1) // 2
 count_3 = (c + 1) // 2
 all_sum = count_1 + count_2 + count_3
 
-# print("Общее количествво парт: " + str(all_sum))
 
 print(f"1 = {count_1} 2 = {count_2} 3 = {count_3}")
+# print("Общее количествво парт: " + str(all_sum))
 print(f"Общее количествво парт: {all_sum}")

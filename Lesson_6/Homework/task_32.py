@@ -8,4 +8,6 @@ min_number = int(input())
 max_number = int(input())
 for i in range(len(list_1)):
     if min_number <= list_1[i] <= max_number:
-        print(i)
+        # print(i)
+        # print(list_1[i])
+        print(f"i = {i}   element = {list_1[i]}")
