@@ -22,20 +22,3 @@ shells I'm sure So if she sells sea shells
 on the sea shore I'm sure that the shells are sea shore shells"""
 
 print(len(set(text.lower())))
-
-
-1, 7, 8, 19, 3, 100, 25, 0, 780, 
-
-
-
-
-a = int(input("Введи любое, кроме 0: "))
-max_a = 0
-while a != 0:
-    a = int(input())
-    if a > max_a:
-        max_a = a
-print(max_a)
-
-В - 2
-П - 4
