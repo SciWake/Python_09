@@ -17,9 +17,7 @@ for i in stroka:
 print()
 print(result)
 
-test = {'a': 1}
-test['a']
-# test['b']
+
 """
 Traceback (most recent call last):
   File "<string>", line 1, in <module>

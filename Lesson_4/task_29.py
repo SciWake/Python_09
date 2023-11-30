@@ -9,7 +9,7 @@
 За помощью товарищи обратились к Вам, студентам."""
 
 n = int(input())
-max_number = -1
+max_number = n
 while n != 0:
     n = int(input())
     if max_number < n:
