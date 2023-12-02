@@ -17,11 +17,11 @@
 n = int(input("n: "))
 arr = [int(input()) for _ in range(n)]
 
+# Вариант 1
 arr_count = list()
-max_count = 0
 for i in range(n):
     arr_count.append(arr[i - 2] + arr[i - 1] + arr[i])
 print(max(arr_count))
 
-
+# Вариант 2
 print(max([arr[i - 2] + arr[i - 1] + arr[i] for i in range(n)]))

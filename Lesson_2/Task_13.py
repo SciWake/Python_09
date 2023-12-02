@@ -19,7 +19,6 @@ N = int(input('Ко-во дней: '))
 local_max = 0
 global_max = 0
 
-
 for _ in range(N):
     x = int(input('Темпрература: '))
     if x > 0:

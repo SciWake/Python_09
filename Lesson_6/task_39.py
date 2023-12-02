@@ -5,6 +5,13 @@
 элементы массива. Затем число M - количество элементов 
 во втором массиве. Затем элементы второго массива"""
 
+
+# first_numbers = []
+# for _ in range(int(input("Количество чисел "))):
+#     first_numbers.append(input('Число '))
+# first_numbers = [input('Число ') for _ in range(int(input("Количество чисел ")))]
+    
+
 first_numbers = [3, 1, 3, 4, 2, 4, 12]
 second_numbers = [4, 15, 43, 1, 15, 1]
 
@@ -39,37 +46,21 @@ for i in range(len(first_numbers)):
 
 
 # Вариант 2.1
+first_numbers = [3, 1, 3, 4, 2, 4, 12]
+second_numbers = [4, 15, 43, 1, 15, 1]
 print()
 print("-" * 20)
 for num in first_numbers:
     if num not in second_numbers:
         print(num, end=' ')
-        
 
-"""А можете ещё раз объяснить чем отличается проход по списку/массиву 
-for i in list_1 от for i in range(len(list_1))? 
-В каком случае какой способ лучше использовать?"""
 
+
+# Вариант 2.2 
 first_numbers = [3, 1, 3, 4, 2, 4, 12]
-for i in range(len(first_numbers)):
-    if first_numbers[i] % 2 == 0:
-       first_numbers[i] = 'Чет'
-print(first_numbers)
-
-
-first_numbers = [3, 1, 3, 4, 2, 4, 12]
-i = 0
+second_numbers = set([4, 15, 43, 1, 15, 1])
+print()
+print("-" * 20)
 for num in first_numbers:
-    if num % 2 == 0:
-        first_numbers[i] = 'Чет'
-    i += 1
-print(first_numbers)
-
-
-first_numbers = [3, 1, 3, 4, 2, 4, 12]
-# i = 0
-for i, num in enumerate(first_numbers):
-    if num % 2 == 0:
-        first_numbers[i] = 'Чет'
-    # i += 1
-print(first_numbers)
+    if num not in second_numbers:
+        print(num, end=' ')

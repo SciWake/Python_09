@@ -14,10 +14,6 @@ N = int(input('Ко-во арбузов: '))
 min = float('inf')
 max = float('-inf')
 
-min = 100
-max = 0
-
-
 for _ in range(N):
     x = int(input('Вес арбуза: '))
     if x > max:

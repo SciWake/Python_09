@@ -8,11 +8,9 @@ def print_numbers(a, b):
     if a == b:  # Выход из рекурсии - без этого условия программа зависнет
         return f"{a}"
     if a > b:
-        # Вычетаем 1, так как печатаем по убыванию
-        return f"{a}, {print_numbers(a - 1, b)}"
+        return f"{a}, {print_numbers(a - 1, b)}" # Вычетаем 1, так как печатаем по убыванию
     if a < b:
-        # Добавляем 1, так как печатаем по возрастанию
-        return f"{a}, {print_numbers(a + 1, b)}"
+        return f"{a}, {print_numbers(a + 1, b)}" # Добавляем 1, так как печатаем по возрастанию
 
 
 print(print_numbers(1, 3))

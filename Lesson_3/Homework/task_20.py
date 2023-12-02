@@ -37,26 +37,10 @@ if lang == 1:
 elif lang == 2:
     print('Ценность этого слова', sum([k for i in word for k, v in ru.items() if i in v]), 'очков')
 
-info_one = [k for i in word for k, v in ru.items() if i in v]
-
 
 info = []
 for i in word:
     for k, v in ru.items():
         if i in v:
             info.append(k)
-print(info_one)
 print(info)
-
-
-
-data = [1, 2, 4, 7, 8, 10]
-is_even = []
-for number in data:
-    if number % 2 == 0:
-        is_even.append(number)
-
-
-is_even = [number for number in data if number % 2 == 0]
-
-print(is_even)

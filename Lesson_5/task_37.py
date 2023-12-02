@@ -9,8 +9,7 @@ def sequence_printing(n):
     if n == 0:  # Выход из рекурсии
         return ''
     k = int(input())
-    # Вычетаем -1, иначе не достигнем базового случая
-    return sequence_printing(n - 1) + f' {k}'
+    return sequence_printing(n - 1) + f' {k}' # Вычетаем -1, иначе не достигнем базового случая
 
 
 print(sequence_printing(4))
