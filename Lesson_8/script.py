@@ -39,6 +39,7 @@ def print_data():
         data_first = file.readlines()
         data_first_version_second = []
         j = 0
+
         for i in range(len(data_first)):
             if data_first[i] == '\n' or i == len(data_first) - 1:
                 data_first_version_second.append(''.join(data_first[j:i + 1]))
@@ -63,17 +64,47 @@ def put_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
+    if number_file == 1:  
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
 
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записей
+        with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
+            data_first = file.readlines()
+
+            while number_journal > (len(data_first)//5):
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+            data_first_version_second = []
+            j = 0
+            for i in range(len(data_first)):
+                if data_first[i] == '\n' or i == len(data_first) - 1:
+                    data_first_version_second.append(''.join(data_first[j:i + 1]))
+                    j = i+1
+        data_first_version_second.pop(number_journal-1)
+
+        with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_first_version_second)
+
+    
+
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
         number_journal = int(input('Введите номер записи: '))
-        # ТУТ НАПИСАТЬ КОД
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
+
+        with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
+            data_second = list(file.readlines())
+
+            while number_journal > (len(data_second)//2):
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+            data_second.pop(2*number_journal - 2)
+            data_second.pop(2*number_journal - 2)
+            
+        with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_second)
+        
+    input_data()
 
 
 def delete_data():
@@ -85,13 +116,95 @@ def delete_data():
         print('Ты дурак?! Даю тебе последний шанс')
         number_file = int(input('Введите номер файла: '))
 
-    if number_file == 1:  # Можно сделать нумерацию внутри файла
+    if number_file == 1:  
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+
+        with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
+            data_first = file.readlines()
+
+            while number_journal > (len(data_first)//5):
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+            data_first_version_second = []
+            j = 0
+            for i in range(len(data_first)):
+                if data_first[i] == '\n' or i == len(data_first) - 1:
+                    data_first_version_second.append(''.join(data_first[j:i + 1]))
+                    j = i+1
+        data_first_version_second.pop(number_journal-1)
+
+        with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_first_version_second)
+
+    
     else:
         print("Какую именно запись по счету Вы хотите удалить?")
         number_journal = int(input('Введите номер записи: '))
-        # Можно добавить проверку, чтобы человек не выходил за пределы записи
-        # ТУТ НАПИСАТЬ КОД
+
+        with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
+            data_second = list(file.readlines())
+
+            while number_journal > (len(data_second)//2):
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+            data_second.pop(2*number_journal - 2)       #такой индекс нужен для избежания попадания на переносы строки
+            data_second.pop(2*number_journal - 2)        # удаляем два раза, так как удаляем запись, а затем перенос после нее
+            print(data_second)
+
+        with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+            file.writelines(data_second)
+
+
+def copy_data():
+    print('Из какого файла Вы хотите скопировать данные?')
+    data_first, data_second = print_data()
+    number_file = int(input('Введите номер файла: '))
+
+    while number_file != 1 and number_file != 2:
+        print('Ты дурак?! Даю тебе последний шанс')
+        number_file = int(input('Введите номер файла: '))
+
+    if number_file == 1:  
+        print("Какую именно запись по счету Вы хотите скопировать?")
+        number_journal = int(input('Введите номер записи: '))
+
+        with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
+            data_first = file.readlines()
+            while number_journal > (len(data_first)//5):
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+            data_first_version_second = []
+            j = 0
+            for i in range(len(data_first)):
+                if data_first[i] == '\n' or i == len(data_first) - 1:
+                    data_first_version_second.append(''.join(data_first[j:i + 1]))
+                    j = i+1
+
+        data = ';'.join(data_first_version_second[number_journal-1].split('\n'))  #замена переносов строки на точку с запятой
+        data = data[:-2] + '\n\n'  #последний два переноса строки, которые нам нужны, переводятся тоже в точку с запятой
+        # поэтому мы их срезаем и добавляем нужные переносы
+            
+        with open('data_second_variant.csv', 'a', encoding='utf-8') as file:
+            file.writelines(data)
+
+
+    else:
+        print("Какую именно запись по счету Вы хотите cкопировать?")
+        number_journal = int(input('Введите номер записи: '))
+
+        with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
+            data_second = list(file.readlines())
+
+            while number_journal > (len(data_second)//2):
+                print('Ты дурак?! Даю тебе последний шанс')
+                number_journal = int(input('Введите номер записи: '))
+
+            data = '\n'.join(data_second[number_journal*2 - 2].split(';'))
+
+        with open('data_first_variant.csv', 'a', encoding='utf-8') as file:
+            file.writelines(data+'\n')
+ 
